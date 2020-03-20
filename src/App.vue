@@ -26,7 +26,7 @@ export default {
   methods: {
     onGraphChange(graph) {
       console.log(graph);
-      this.viz.renderString('digraph { a -> b }') //TODO:replace with graph
+      this.viz.renderString(graph)
         .then(result => this.graphHTML = result)
         .catch(err => console.log(err));
     },

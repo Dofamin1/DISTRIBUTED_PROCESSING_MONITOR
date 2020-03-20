@@ -1,18 +1,17 @@
 export default class SocketClient {
     constructor() {
-        this.PORT = 8088;
-        this.HOST = "localhost"
-        this.PROTOCOL = "ws"
-        this.ws = new WebSocket(this.PROTOCOL + '://'+ this.HOST + ':' + this.PORT);
+        this.ws = new WebSocket( 'ws://localhost:8088');
+        this.eventsMap = new Map();
     }
 
     onEvent(eventName, callback) {
-        const wrapedCallback = body => {
-            const { event, data } = JSON.parse(body);
-            if(event == eventName) {
-                callback(data)
+        this.eventsMap.set(eventName, callback);
+        this.ws.onmessage = body => {
+            const {event, data} = JSON.parse(body.data);
+            let handler = this.eventsMap.get(event);
+            if (handler) {
+                handler(data)
             }
-        }
-        this.ws.onmessage = wrapedCallback
+        };
     }
 }
