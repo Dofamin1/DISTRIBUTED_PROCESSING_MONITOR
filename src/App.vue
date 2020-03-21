@@ -32,7 +32,6 @@ export default {
     },
     onQueueLengthChange(length) {
       console.log(length);
-      throw new Error('onQueueLengthChange is not implemented')
     }
   }
 }
